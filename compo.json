@@ -1,0 +1,29 @@
+{
+  "extensions": [
+    {
+      "epID": "console.command",
+      "firstWord": "hello",
+      "function": "./lib/test-commands!hello"
+    },
+    {
+      "epID": "console.command",
+      "firstWord": "i",
+      "secondWord": "am",
+      "function": "./lib/test-commands!iam"
+    }
+  ],
+
+  "singletons": {
+    "repl": {
+      "object": "./lib/repl"
+    }
+  },
+
+  "permissions": ["repl"],
+
+  "extensionPoints": {
+    "console.command": {
+      "key": "firstWord"
+    }
+  }
+}
