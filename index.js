@@ -6,7 +6,7 @@ let PROMPT = ' >> ',
     PROMPT_PADDING = '... ',
     ERR_PADDING = 'ERR '
 function plugin () {
-  return exports.addon
+  return exports.plugin
 }
 
 let readline = require('readline')
