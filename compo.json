@@ -10,6 +10,12 @@
       "firstWord": "i",
       "secondWord": "am",
       "function": "./lib/test-commands!iam"
+    },
+    {
+      "epID": "console.command",
+      "firstWord": "help",
+      "description": "Prints this message",
+      "function": "./lib/console-commands!help"
     }
   ],
 

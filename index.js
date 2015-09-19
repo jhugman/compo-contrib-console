@@ -2,9 +2,9 @@
 
 const FIRST_WORD = 'console.command'
 
-let PROMPT = " >> ",
-    PROMPT_PADDING = "... "
-
+let PROMPT = ' >> ',
+    PROMPT_PADDING = '... ',
+    ERR_PADDING = 'ERR '
 function plugin () {
   return exports.addon
 }
@@ -36,33 +36,31 @@ function answerThis (chunk) {
     return
   }
 
-  let line = chunk.replace(/^\s*(.*)\s*$/, "$1")
+  let line = chunk.replace(/^\s*(.*)\s*$/, '$1')
   let doingEval = plugin().repl.evaluateLine(line, println)
-  if (doingEval) {
-    if (doingEval.then) {
-      doingEval
-        .then(() => {
-          prompt()
-        })
-        .catch((e) => {
-          console.error(e.message, '\n', e.stack)
-        })
-      return
+  
+  doingEval.then((x) => {
+    prompt()
+  })
+  .catch((err) => {
+    if (err.message === 'SYNTAX_ERROR') {
+      console.log(ERR_PADDING + 'Not recognized: ' + line)
+    } else {
+      console.log(ERR_PADDING + e.message)
+      console.log(e.stack)
     }
-  } else {
-    console.log(PROMPT_PADDING + 'ERRROR: ' + line)
-  }
-  // do whatever async stuffs here, then prompt
-  prompt()
+    prompt()
+  })
 }
 
 let quit = function () {
-  console.log("\n" + PROMPT_PADDING + "Goodbye")
+  console.log('\n' + PROMPT_PADDING + 'Goodbye')
   rl.pause()
+  process.exit(0)
 }
 
 rl.
-  on("line", answerThis).
-  on("SIGINT", quit)
+  on('line', answerThis).
+  on('SIGINT', quit)
 
 prompt()
