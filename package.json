@@ -1,5 +1,5 @@
 {
-  "name": "compo-console",
+  "name": "compo-contrib-console",
   "version": "0.0.1",
   "description": "A console plugin for compo apps",
   "main": "index.js",

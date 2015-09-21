@@ -5,9 +5,6 @@ const FIRST_WORD = 'console.command'
 let PROMPT = ' >> ',
     PROMPT_PADDING = '... ',
     ERR_PADDING = 'ERR '
-function plugin () {
-  return exports.plugin
-}
 
 let readline = require('readline')
 
@@ -22,6 +19,9 @@ let rl = readline.createInterface({
 })
 
 let prompt = function () {
+  if (!rl) {
+    return
+  }
   rl.setPrompt(PROMPT, PROMPT.length)
   rl.prompt(true)
 }
@@ -37,7 +37,9 @@ function answerThis (chunk) {
   }
 
   let line = chunk.replace(/^\s*(.*)\s*$/, '$1')
-  let doingEval = plugin().repl.evaluateLine(line, println)
+  
+  let plugin = exports.plugin
+  let doingEval = plugin.repl.evaluateLine(line, println)
   
   doingEval.then((x) => {
     prompt()
@@ -54,9 +56,14 @@ function answerThis (chunk) {
 }
 
 let quit = function () {
+  exports.unload()
+  process.exit(0)
+}
+
+exports.unload = () => {
   console.log('\n' + PROMPT_PADDING + 'Goodbye')
   rl.pause()
-  process.exit(0)
+  rl = null
 }
 
 rl.

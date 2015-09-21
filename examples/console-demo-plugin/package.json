@@ -1,0 +1,9 @@
+{
+  "name": "compo-demo-plugin",
+  "version": "1.0.0",
+  "description": "A console plugin that adds two dumb commands",
+  "main": "index.js",
+  "author": "@jhugman",
+  "license": "Apache-2.0",
+  "compo": "compo.json"
+}

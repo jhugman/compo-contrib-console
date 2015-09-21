@@ -2,18 +2,7 @@
   "extensions": [
     {
       "epID": "console.command",
-      "firstWord": "hello",
-      "function": "./lib/test-commands!hello"
-    },
-    {
-      "epID": "console.command",
-      "firstWord": "i",
-      "secondWord": "am",
-      "function": "./lib/test-commands!iam"
-    },
-    {
-      "epID": "console.command",
-      "firstWord": "help",
+      "firstWord": "?",
       "description": "Prints this message",
       "function": "./lib/console-commands!help"
     }
@@ -21,7 +10,8 @@
 
   "singletons": {
     "repl": {
-      "object": "./lib/repl"
+      "object": "./lib/repl",
+      "description": "An object to interact with the console from other plugins."
     }
   },
 
@@ -29,7 +19,8 @@
 
   "extensionPoints": {
     "console.command": {
-      "key": "firstWord"
+      "key": "firstWord",
+      "description": "A command beginning with one or two words."
     }
   }
 }
