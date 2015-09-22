@@ -18,10 +18,15 @@ let rl = readline.createInterface({
   completer: completer
 })
 
-let prompt = function () {
+let prompt = (starting) => {
   if (!rl) {
     return
   }
+
+  if (starting) {
+    println('Type ? for a list of commands')
+  }
+
   rl.setPrompt(PROMPT, PROMPT.length)
   rl.prompt(true)
 }
@@ -70,4 +75,4 @@ rl.
   on('line', answerThis).
   on('SIGINT', quit)
 
-prompt()
+prompt(true)
