@@ -6,6 +6,10 @@
       "firstWord": "?",
       "description": "Prints this message",
       "function": "./lib/console-commands!help"
+    },
+    {
+      "epID": "console.line",
+      "function": "./lib/repl!evaluateLineWithTokens"
     }
   ],
 
@@ -19,6 +23,9 @@
   "permissions": ["repl"],
 
   "extensionPoints": {
+    "console.line": {
+      "description": "A command line parser. Should return undefined iff it doesn't know how to parse the line"
+    },
     "console.command": {
       "key": "firstWord",
       "description": "A command beginning with one or two words."
