@@ -18,13 +18,22 @@ let rl = readline.createInterface({
   completer: completer
 })
 
-let prompt = (starting) => {
+let startup = (println) => {
+  let startups = exports.plugin.extensionPoints['console.startup'].array
+    .map((s) => {
+      try {
+        return s(println)
+      } catch (e) {
+        console.error('console.startup failed', e.stack)
+      }
+    })
+
+  return Promise.all(startups)
+}
+
+let prompt = () => {
   if (!rl) {
     return
-  }
-
-  if (starting) {
-    println('Type ? for a list of commands')
   }
 
   rl.setPrompt(PROMPT, PROMPT.length)
@@ -75,4 +84,10 @@ rl.
   on('line', answerThis).
   on('SIGINT', quit)
 
-prompt(true)
+setTimeout(() => {
+  startup(println)
+    .then(() => {
+      println('Type ? for a list of commands')
+      prompt()
+    })
+}, 1)
