@@ -75,8 +75,9 @@ let quit = function () {
 }
 
 exports.unload = () => {
-  console.log('\n' + PROMPT_PADDING + 'Goodbye')
-  rl.pause()
+  console.log()
+  println('Goodbye')
+  rl.close()
   rl = null
 }
 
