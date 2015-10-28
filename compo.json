@@ -2,20 +2,20 @@
   "manifest_version": "1.0",
   "extensions": [
     {
-      "epID": "console.command",
-      "firstWord": "?",
-      "description": "Prints this message",
-      "function": "./lib/console-commands!help"
+      "epID": "console.line",
+      "function": "./lib/repl!Repl.evaluateLineWithTokens"
     },
     {
-      "epID": "console.line",
-      "function": "./lib/repl!evaluateLineWithTokens"
+      "epID": "console.command",
+      "command": "?",
+      "description": "Prints this message",
+      "function": "./lib/console-commands!help"
     }
   ],
 
   "singletons": {
     "repl": {
-      "object": "./lib/repl",
+      "object": "./lib/repl!Repl",
       "description": "An object to interact with the console from other plugins."
     }
   },
@@ -27,7 +27,11 @@
       "description": "A command line parser. Should return undefined iff it doesn't know how to parse the line"
     },
     "console.command": {
-      "key": "firstWord",
+      "key": "command",
+      "description": "A command made of simple words and command.tokens"
+    },
+    "console.command.token": {
+      "key": "tokenType",
       "description": "A command beginning with one or two words."
     },
     "console.startup": {

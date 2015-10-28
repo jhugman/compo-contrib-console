@@ -3,14 +3,13 @@
   "extensions": [
     {
       "epID": "console.command",
-      "firstWord": "hello",
+      "line": "hello",
       "function": "./lib/test-commands!hello",
       "description": "A command to greet the computer"
     },
     {
       "epID": "console.command",
-      "firstWord": "i",
-      "secondWord": "am",
+      "line": "i am",
       "function": "./lib/test-commands!iam",
       "description": "A command to tell the computer your name"
     }
