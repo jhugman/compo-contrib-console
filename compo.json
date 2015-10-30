@@ -36,7 +36,7 @@
     },
     "console.startup": {
       "description": "A function that runs at startup",
-      "docs": "(println) => Void"
+      "docs": "(output) => Void"
     }
   }
 }

@@ -2,9 +2,14 @@
 
 const FIRST_WORD = 'console.command'
 
-let PROMPT = ' >> ',
-    PROMPT_PADDING = '... ',
-    ERR_PADDING = 'ERR '
+let PROMPT = ' >>',
+    PROMPT_PADDING = '………',
+    ERR_PADDING = '___'
+
+let output = {
+  log: console.log.bind(console, PROMPT_PADDING),
+  error: console.error.bind(console, ERR_PADDING),
+}
 
 let readline = require('readline')
 
@@ -18,11 +23,11 @@ let rl = readline.createInterface({
   completer: completer
 })
 
-let startup = (println) => {
+let startup = (output) => {
   let startups = exports.plugin.extensionPoints['console.startup'].array
     .map((s) => {
       try {
-        return s(println)
+        return s(output)
       } catch (e) {
         console.error('console.startup failed', e.stack)
       }
@@ -36,13 +41,10 @@ let prompt = () => {
     return
   }
 
-  rl.setPrompt(PROMPT, PROMPT.length)
+  rl.setPrompt(PROMPT + ' ', PROMPT.length + 1)
   rl.prompt(true)
 }
 
-let println = (line) => {
-  console.log(PROMPT_PADDING + line)
-}
 
 function answerThis (chunk) {
   if (chunk.match(/^\s*$/)) {
@@ -53,17 +55,17 @@ function answerThis (chunk) {
   let line = chunk.replace(/^\s*(.*)\s*$/, '$1')
   
   let plugin = exports.plugin
-  let doingEval = plugin.repl.evaluateLine(line, println)
+  let doingEval = plugin.repl.evaluateLine(output, line)
   
   doingEval.then((x) => {
     prompt()
   })
   .catch((err) => {
     if (err.message === 'SYNTAX_ERROR') {
-      console.log(ERR_PADDING + 'Not recognized: ' + line)
+      output.error('Not recognized:', line)
     } else {
-      console.log(ERR_PADDING + e.message)
-      console.log(e.stack)
+      output.error(e.message)
+      output.error(e.stack)
     }
     prompt()
   })
@@ -76,7 +78,7 @@ let quit = function () {
 
 exports.unload = () => {
   console.log()
-  println('Goodbye')
+  output.log('Goodbye')
   rl.close()
   rl = null
 }
@@ -86,9 +88,9 @@ rl.
   on('SIGINT', quit)
 
 setTimeout(() => {
-  startup(println)
+  startup(output)
     .then(() => {
-      println('Type ? for a list of commands')
+      output.log('Type ? for a list of commands')
       prompt()
     })
 }, 1)

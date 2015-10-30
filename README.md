@@ -7,6 +7,6 @@ The plugin starts a shell on `stdout`.
 * The `console.command` extension point accepts extensions
   - `firstWord`: a string
   - `secondWord`: a string
-  - `function`: function (println, tokens)
+  - `function`: function (output, tokens)
   - `description`: a message to show in `help`.
 * a single command: `help`

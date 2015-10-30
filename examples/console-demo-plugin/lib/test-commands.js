@@ -2,13 +2,13 @@
 let me = 'Computer',
     you = 'new friend'
 
-exports.hello = function (println, tokens) {
+exports.hello = function (output, tokens) {
   me = tokens[0] || me
-  println('hello ' + you)
+  output.log('hello ' + you)
 }
 
-exports.iam = function (println, tokens) {
+exports.iam = function (output, tokens) {
   you = tokens[0] || you
-  println('hello ' + you + '… i am ' + me)
+  output.log('hello ' + you + '… i am ' + me)
 }
 
