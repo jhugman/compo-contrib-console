@@ -6,9 +6,45 @@ let PROMPT = ' >>',
     PROMPT_PADDING = '………',
     ERR_PADDING = '___'
 
+let tableOutput = (header, rows) => {
+  let colWidths = []
+  rows.forEach((row) => {
+    let colNum = 0
+    row.forEach((cell) => {
+      let maxWidth = colWidths[colNum] || 0
+      if (cell) {
+        colWidths[colNum] = Math.max(cell.length, maxWidth)
+      }
+      colNum ++
+    })
+  })
+  let sp = (n, c) => {
+    n = n || 1
+    c = c || ' '
+    let s = ''
+    for (let i = 0; i < n; i++) {
+      s += c
+    }
+    return s
+  }
+
+  rows.forEach((row) => {
+    let line = ''
+    let colNum = 0
+    row.forEach((cell) => {
+      let maxWidth = colWidths[colNum]
+      let cellLength = cell ? cell.length : 0
+      line += ' ' + (cell||'') + sp(maxWidth - cellLength + 1) + ' '
+    })
+    output.log(line)
+    colNum ++
+  })
+}
+
 let output = {
   log: console.log.bind(console, PROMPT_PADDING),
   error: console.error.bind(console, ERR_PADDING),
+  table: tableOutput,
 }
 
 let readline = require('readline')
