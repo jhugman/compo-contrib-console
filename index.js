@@ -3,45 +3,23 @@
 const FIRST_WORD = 'console.command'
 
 let PROMPT = ' >>',
-    PROMPT_PADDING = '………',
-    ERR_PADDING = '___'
+    PROMPT_PADDING = '   ',
+    ERR_PADDING = '………'
 
-let tableOutput = (header, rows) => {
-  let colWidths = []
-  rows.forEach((row) => {
-    let colNum = 0
-    row.forEach((cell) => {
-      let maxWidth = colWidths[colNum] || 0
-      if (cell) {
-        colWidths[colNum] = Math.max(cell.length, maxWidth)
-      }
-      colNum ++
-    })
-  })
-  let sp = (n, c) => {
-    n = n || 1
-    c = c || ' '
-    let s = ''
-    for (let i = 0; i < n; i++) {
-      s += c
-    }
-    return s
-  }
+let Table = require('cli-table');
 
-  rows.forEach((row) => {
-    let line = ''
-    let colNum = 0
-    row.forEach((cell) => {
-      let maxWidth = colWidths[colNum]
-      let cellLength = cell ? cell.length : 0
-      line += ' ' + (cell||'') + sp(maxWidth - cellLength + 1) + ' '
-    })
+let output, tableOutput = (header, rows) => {
+  header = header || {}
+  header.chars = header.chars || {'mid': '', 'left-mid': '', 'mid-mid': '', 'right-mid': ''}
+  let table = new Table(header);
+  table.push.apply(table, rows)
+  let string = table.toString()
+  string.split('\n').forEach((line) => {
     output.log(line)
-    colNum ++
   })
 }
 
-let output = {
+output = {
   log: console.log.bind(console, PROMPT_PADDING),
   error: console.error.bind(console, ERR_PADDING),
   table: tableOutput,
